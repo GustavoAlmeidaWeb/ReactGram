@@ -1,0 +1,49 @@
+.container .profile-info {
+    border-bottom: 1px solid #222;
+    padding-bottom: 30px;
+}
+.container .profile-info img {
+    border-radius: 50%;
+    width: 130px;
+}
+.container .profile-info .img-detail {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: row
+}
+.container .profile-info .name-bio-detail {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.container-photos {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.photo {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    padding: 20px 5px 20px 0;
+}
+.photo img {
+    height: 280px;
+    object-fit: cover;
+    width: 280px;
+}
+.actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.photo-edit img {
+    width: 100%;
+}

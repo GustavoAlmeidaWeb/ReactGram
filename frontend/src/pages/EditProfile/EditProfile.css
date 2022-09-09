@@ -1,0 +1,9 @@
+.profile-image {
+    display: flex;
+    justify-content: center;
+}
+.profile-image img {
+    border-radius: 50%;
+    height: auto;
+    width: 150px;
+}

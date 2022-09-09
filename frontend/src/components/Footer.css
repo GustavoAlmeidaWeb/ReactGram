@@ -1,0 +1,8 @@
+.footer {
+    padding: 50px 0 30px;
+}
+.footer .container-fluid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

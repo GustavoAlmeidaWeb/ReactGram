@@ -1,0 +1,12 @@
+.comment .author img {
+    width: 45px;
+    margin-right: 10px;
+    border-radius: 50%;
+}
+.comment .author a {
+    color: #999;
+    text-decoration: none;
+}
+.comment .author a:hover {
+    color: #ededed;
+}
