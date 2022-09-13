@@ -1,4 +1,5 @@
 const User = require('../models/User.js');
+const Photo = require('../models/Photo.js');
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -77,10 +78,39 @@ const login = async (req, res) => {
     })
 }
 
+// Get current user
 const getCurrentUser = (req, res) => {
     const user = req.user;
 
+    if(!user){
+        res.status(404).json({errors: ['Usuário não encontrado ou não autenticado.']})
+        return;
+    }
+
     res.status(200).json(user);
+}
+
+// Delete our profile and photos
+const deleteProfile = async (req, res) => {
+    
+    const user = req.user;
+
+    try{
+        
+        if(!user){
+            res.status(404).json({errors: ['Usuário não encontrado.']})
+            return;
+        }
+        
+        await Photo.deleteMany({userId: user._id});
+        await User.findByIdAndDelete(user._id);
+
+        res.status(200).json({message: "Perfil excluído com sucesso."});
+
+    } catch (error) {
+        res.status(404).json({errors: ['Usuário não encontrado.']})
+        return;
+    }
 }
 
 // Update User
@@ -146,5 +176,6 @@ module.exports = {
     login,
     getCurrentUser,
     update,
-    getUserById
+    getUserById,
+    deleteProfile
 };

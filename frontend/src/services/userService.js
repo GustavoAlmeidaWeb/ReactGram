@@ -57,10 +57,29 @@ const getUserDetails = async (id) => {
     }
 }
 
+// Delete user profile
+const deleteUserProfile = async (token) => {
+
+    const config = requestConfig('DELETE', null, token);
+
+    try {
+        
+        const res = await fetch(`${api}/users/delete`, config)
+            .then((res) => res.json())
+            .catch((err) => err)
+
+        return res;
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 const userService = {
     profile,
     updateProfile,
     getUserDetails,
+    deleteUserProfile
 }
 
 export default userService;

@@ -1,4 +1,5 @@
 import './EditProfile.css';
+import { useNavigate } from 'react-router-dom';
 
 // Bootstrap
 import { Container, Row, Col, Form, Button, FloatingLabel } from 'react-bootstrap';
@@ -8,15 +9,18 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 // Redux
-import { profile, resetMessage, updateProfile } from '../../slices/userSlice';
+import { profile, resetMessage, updateProfile, deleteUserProfile } from '../../slices/userSlice';
+import { logout } from '../../slices/authSlice';
 
 // Diretorio Imagens
 import { upload } from '../../utils/config';
 
 import Message from '../../components/Message';
 
+
 const EditProfile = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { user, message, loading, error } = useSelector((state) => state.user);  
 
@@ -85,6 +89,18 @@ const EditProfile = () => {
 
   }
 
+  const handleDeleteProfile = () => {
+
+    dispatch(deleteUserProfile(dispatch));
+
+    setTimeout(() => {
+      dispatch(resetMessage());
+      dispatch(logout());
+      navigate('/');
+    }, 2000)
+
+  }
+
   return (
     <Container>
       <Row>
@@ -120,10 +136,11 @@ const EditProfile = () => {
             <Form.Label className="d-grid">
               {!loading && <Button type="submit" size="lg" variant="primary">Atualizar</Button>}
               {loading && <Button type="submit" size="lg" variant="primary" disabled>Aguarde...</Button>}
-              {error && <Message msg={error} type='danger'/>}
-              {message && <Message msg={message} type='success'/>}
             </Form.Label>
           </Form>
+          <Button variant="danger" onClick={handleDeleteProfile}>Excluir Conta</Button>
+          {error && <Message msg={error} type='danger'/>}
+          {message && <Message msg={message} type='success'/>}
         </Col>
       </Row>
     </Container>

@@ -20,6 +20,18 @@ export const profile = createAsyncThunk("user/profile", async (user, thunkAPI) =
 
 })
 
+// Delete user profile
+export const deleteUserProfile = createAsyncThunk("user/delete", async (_, thunkAPI) => {
+
+    const token = thunkAPI.getState().auth.user.token;
+
+    const data = await userService.deleteUserProfile(token);
+
+    return data;
+
+})
+
+
 // Update user profile
 export const updateProfile = createAsyncThunk("user/update", async (user, thunkAPI) => {
 
@@ -95,6 +107,18 @@ export const userSlice = createSlice({
             state.success = true;
             state.error = null;
             state.user = action.payload;
+        })
+        .addCase(deleteUserProfile.pending, (state) => {
+            state.loading = true;
+            state.error = false;
+            state.message = null;
+        })
+        .addCase(deleteUserProfile.fulfilled, (state, action) => {
+            state.loading = false;
+            state.success = true;
+            state.error = null;
+            state.user = action.payload;
+            state.message = 'Conta excluída com sucesso!';
         })
     }
 });
