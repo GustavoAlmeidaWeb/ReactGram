@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 // Bootstrap
 import { Container, Row, Col, Form, Button, FloatingLabel } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // Hooks
 import { useState, useEffect } from 'react';
@@ -122,25 +123,27 @@ const EditProfile = () => {
               <Form.Control type="email" placeholder="Seu e-mail" value={email || ''} disabled/>
             </FloatingLabel>
             <Form.Group className="mb-3">
-              <Form.Label>Imagem do Perfil</Form.Label>
+              <Form.Label><FontAwesomeIcon icon="image-portrait" /> Imagem do Perfil</Form.Label>
               <Form.Control type="file" size="lg" onChange={handleFile}/>
             </Form.Group>
-            <Form.Label>Bio</Form.Label>
+            <Form.Label><FontAwesomeIcon icon="file-signature" /> Bio</Form.Label>
             <FloatingLabel label="Fale um pouco sobre você" className="mb-3 text-dark" >
               <Form.Control type="text" placeholder="Fale um pouco sobre você" onChange={(e) => setBio(e.target.value)} value={bio || ''}  />
             </FloatingLabel>
-            <Form.Label>Deseja Alterar sua senha ?</Form.Label>
+            <Form.Label><FontAwesomeIcon icon="key" /> Deseja Alterar sua senha ?</Form.Label>
             <FloatingLabel label="Digite sua senha nova..." className="mb-3 text-dark" >
               <Form.Control type="password" placeholder="Digite sua senha nova..." onChange={(e) => setPassword(e.target.value)} />
             </FloatingLabel>
             <Form.Label className="d-grid">
-              {!loading && <Button type="submit" size="lg" variant="primary">Atualizar</Button>}
+              {!loading && <Button type="submit" size="lg" variant="primary"><FontAwesomeIcon icon="pen-to-square" /> Salvar</Button>}
               {loading && <Button type="submit" size="lg" variant="primary" disabled>Aguarde...</Button>}
             </Form.Label>
+            <Form.Label className="d-grid">
+              <Button variant="danger" onClick={handleDeleteProfile}><FontAwesomeIcon icon="trash-can" /> Excluir Conta</Button>
+              {error && <Message msg={error} type='danger'/>}
+              {message && <Message msg={message} type='success'/>}
+            </Form.Label>
           </Form>
-          <Button variant="danger" onClick={handleDeleteProfile}>Excluir Conta</Button>
-          {error && <Message msg={error} type='danger'/>}
-          {message && <Message msg={message} type='success'/>}
         </Col>
       </Row>
     </Container>

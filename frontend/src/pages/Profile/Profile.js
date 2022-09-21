@@ -171,7 +171,7 @@ const Profile = () => {
                                 <Form.Control type="file" size="lg" onChange={handleFile}/>
                             </Form.Group>
                             <Form.Label className="d-grid">
-                                {!loadingPhoto && <Button type="submit" size="lg" variant="primary">Postar</Button>}
+                                {!loadingPhoto && <Button type="submit" size="lg" variant="primary"><FontAwesomeIcon icon="file-image" /> Postar</Button>}
                                 {loadingPhoto && <Button type="submit" size="lg" variant="primary" disabled>Aguarde...</Button>}
                                 {errorPhoto && <Message msg={errorPhoto} type='danger'/>}
                                 {messagePhoto && <Message msg={messagePhoto} type='success'/>}

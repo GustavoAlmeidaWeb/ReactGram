@@ -12,9 +12,10 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
-import { faHeart as faFillHeart } from '@fortawesome/free-regular-svg-icons';
+import { fab } from "@fortawesome/free-brands-svg-icons";
+import { far, faHeart as faFillHeart } from '@fortawesome/free-regular-svg-icons';
 
-library.add(fas, faFillHeart);
+library.add(fas, fab, far, faFillHeart);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
