@@ -8,6 +8,7 @@ import { upload } from '../../utils/config';
 import { Link, useParams } from 'react-router-dom';
 import Message from '../../components/Message';
 import PhotoItem from '../../components/PhotoItem';
+import Loading from '../../components/Loading';
 
 // Hooks
 import { useEffect, useState } from 'react';
@@ -55,44 +56,42 @@ const Photo = () => {
     resetMessage();
   }
 
-  // Loading
-  if(loading) {
-    return <p>Carregando...</p>;
-  }
-
-  // console.log(photo.comments.length);
-
   return (
     <>
-      <PhotoItem photo={photo} handleLike={handleLike}/>
-      <LikeContainer photo={photo} handleLike={handleLike} user={user} />
-      <div className="col-md-6 offset-3">
-        {error && <Message msg={error} type="danger"/>}
-        {message && <Message msg={message} type="success"/>}
-      </div>
-      <div className="comments col-md-6 offset-3">
-        <h3 className='my-3 h5'>Comentários: ({photo.comments && photo.comments.length})</h3>
-        <Form onSubmit={handleComment}>
-          <FloatingLabel controlId="floatingInput" label="Insira seu comentário..." className="mb-3 text-dark" >
-            <Form.Control type="text" placeholder="Insira seu comentário..." onChange={(e) => setCommentText(e.target.value)} value={commentText || ''} />
-          </FloatingLabel>
-          <Form.Label className="d-grid">
-            <Button type="submit" size="lg" variant="primary">Enviar</Button>
-          </Form.Label>
-        </Form>
-        {photo.comments && photo.comments.length === 0 && <p className='my-3'>Nenhum comentário ainda...</p>}
-        {photo.comments && photo.comments.map((comment) => (
-          <div className="comment" key={comment.comment}>
-            <div className="author mt-4">
-              {comment.userImage && (
-                <img src={`${upload}/users/${comment.userImage}`} alt={comment.userName} />
-              )}
-              <Link to={`/users/${comment.userId}`}>{comment.userName}</Link>
+      <Loading loading={loading} />
+      {!loading && (
+      <>
+        <PhotoItem photo={photo} handleLike={handleLike}/>
+        <LikeContainer photo={photo} handleLike={handleLike} user={user} />
+        <div className="col-md-6 offset-3">
+          {error && <Message msg={error} type="danger"/>}
+          {message && <Message msg={message} type="success"/>}
+        </div>
+        <div className="comments col-md-6 col-sm-8 col-10 offset-md-3 offset-sm-2 offset-1">
+          <h3 className='my-3 h5'>Comentários: ({photo.comments && photo.comments.length})</h3>
+          <Form onSubmit={handleComment}>
+            <FloatingLabel controlId="floatingInput" label="Insira seu comentário..." className="mb-3 text-dark" >
+              <Form.Control type="text" placeholder="Insira seu comentário..." onChange={(e) => setCommentText(e.target.value)} value={commentText || ''} />
+            </FloatingLabel>
+            <Form.Label className="d-grid">
+              <Button type="submit" size="lg" variant="primary">Enviar</Button>
+            </Form.Label>
+          </Form>
+          {photo.comments && photo.comments.length === 0 && <p className='my-3'>Nenhum comentário ainda...</p>}
+          {photo.comments && photo.comments.map((comment) => (
+            <div className="comment" key={comment.comment}>
+              <div className="author mt-4">
+                {comment.userImage && (
+                  <img src={`${upload}/users/${comment.userImage}`} alt={comment.userName} />
+                )}
+                <Link to={`/users/${comment.userId}`}>{comment.userName}</Link>
+              </div>
+              <p className='px-5'>{comment.comment}</p>
             </div>
-            <p className='px-5'>{comment.comment}</p>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </>
+      )}
     </>
   )
 }

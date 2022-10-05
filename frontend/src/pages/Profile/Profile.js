@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // Components
 import { upload } from '../../utils/config';
 import Message from '../../components/Message';
+import Loading from '../../components/Loading';
 
 // Redux
 import { getUserDetails } from '../../slices/userSlice';
@@ -135,29 +136,28 @@ const Profile = () => {
         showOrHide();
     }
 
-    if(loading){
-        return <p>Carregando...</p>
-    };
-
   return (
     <Container>
-        <Row className='profile-info'>
-            <Col lg={5} className='img-detail'>
-                {user.profileImage && (
-                    <img src={`${upload}/users/${user.profileImage}`} alt={user.name} />
-                )}
-            </Col>
-            <Col lg={7} className='name-bio-detail'>
-                {user && (
+        <Loading loading={loading} />
+        {!loading && (
+        <>
+            <Row className='profile-info'>
+                <Col lg={5} className='img-detail'>
+                    {user.profileImage && (
+                        <img src={`${upload}/users/${user.profileImage}`} alt={user.name} />
+                    )}
+                </Col>
+                <Col lg={7} className='name-bio-detail'>
+                    {user && (
                     <>
                         <h2 className='display-6'>{user.name}</h2>
                         <p>{user.bio}</p>
                     </>
-                )}
-            </Col>
-        </Row>
-        <Row>
-            {id === userAuth._id && (
+                    )}
+                </Col>
+            </Row>
+            <Row>
+                {id === userAuth._id && (
                 <>
                     <Col md={{ span: 6, offset: 3 }} ref={newPhotoForm} className='my-5'>
                         <p className='display-6 text-center'>Compartilhe algo com seus amigos...</p>
@@ -197,14 +197,14 @@ const Profile = () => {
 
                     </Col>
                 </>
-            )}
-        </Row>
-        <Row>
-            <>
+                )}
+            </Row>
+            <Row>
+                <>
                 {photos && <p className='display-6 text-center my-3'>Fotos Publicadas</p>}
                 {photos.length === 0 && <p className='display-6 text-center my-3'>Não há fotos Publicadas...</p>}
-                <Col md={{ span: 8, offset: 2 }} className='container-photos'>
-                    {photos && photos.map((photo) => (
+                    <Col md={{ span: 8, offset: 2 }} className='container-photos'>
+                        {photos && photos.map((photo) => (
                         <>
                             <div className="photo text-center" key={photo._id}>
                                 {photo.image && (
@@ -235,10 +235,12 @@ const Profile = () => {
                                 )}
                             </div>
                         </>
-                    ))}
-                </Col>
-            </>
-        </Row>
+                        ))}
+                    </Col>
+                </>
+            </Row>
+        </>
+        )}
     </Container>
   )
 }

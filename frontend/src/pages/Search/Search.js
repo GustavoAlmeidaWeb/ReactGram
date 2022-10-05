@@ -12,6 +12,7 @@ import { useQuery } from '../../hooks/useQuery';
 // Components
 import LikeContainer from '../../components/LikeContainer';
 import PhotoItem from '../../components/PhotoItem';
+import Loading from '../../components/Loading';
 import { Link } from 'react-router-dom';
 
 // Redux
@@ -38,31 +39,30 @@ const Search = () => {
         resetMessage();
     }
 
-    if(loading){
-        return <p>Carregando...</p>
-    }
-
   return (
     <Container>
-        <Row>
-            <Col md={{ span: 8, offset: 2 }}>
-                <h2>Você está buscando por: {search}</h2>
-                {photos && photos.map((photo) => (
-                    <div key={photo._id}>
-                        <PhotoItem photo={photo} handleLike={handleLike} />
-                        <LikeContainer photo={photo} user={user} handleLike={handleLike} />
-                        <div className="text-center mt-3">
-                            <Link to={`/photos/${photo._id}`} className="btn btn-dark">Ver foto</Link>
+        <Loading loading={loading} />
+        {!loading && (
+            <Row>
+                <Col md={{ span: 8, offset: 2 }}>
+                    <h2>Você está buscando por: {search}</h2>
+                    {photos && photos.map((photo) => (
+                        <div key={photo._id}>
+                            <PhotoItem photo={photo} handleLike={handleLike} />
+                            <LikeContainer photo={photo} user={user} handleLike={handleLike} />
+                            <div className="text-center mt-3">
+                                <Link to={`/photos/${photo._id}`} className="btn btn-dark">Ver foto</Link>
+                            </div>
                         </div>
-                    </div>
-                ))}
-                {photos && photos.length === 0 && (
-                    <div className="no-photos">
-                        <h2>Nenhum resultado encontrado para sua busca...</h2>
-                    </div>
-                )} 
-            </Col>
-        </Row>
+                    ))}
+                    {photos && photos.length === 0 && (
+                        <div className="no-photos">
+                            <h2>Nenhum resultado encontrado para sua busca...</h2>
+                        </div>
+                    )} 
+                </Col>
+            </Row>
+        )}
     </Container>
   )
 }

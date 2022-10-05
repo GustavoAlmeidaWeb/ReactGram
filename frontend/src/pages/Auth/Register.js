@@ -2,10 +2,11 @@ import './Auth.css';
 import Message from '../../components/Message';
 
 // Hooks
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useResetAuthMessage } from '../../hooks/useResetAuthMessage';
 
 // Redux
-import { register, reset } from '../../slices/authSlice';
+import { register } from '../../slices/authSlice';
 import { useSelector, useDispatch } from 'react-redux';
 
 // Link
@@ -16,13 +17,13 @@ import { Container, Row, Col, Form, FloatingLabel, Button } from 'react-bootstra
 
 
 const Register = () => {
+  
+  const dispatch = useDispatch();
+  const resetMessage = useResetAuthMessage(dispatch);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
-  const dispatch = useDispatch();
-
   const { loading, error } = useSelector((state) => state.auth);
 
   const handleSubmit = (e) => {
@@ -35,16 +36,16 @@ const Register = () => {
       confirmPassword,
     }
 
-    console.log(user);
     dispatch(register(user));
+    resetMessage();
   }
 
   // Clean all auth states
-  useEffect(() => {
+  // useEffect(() => {
 
-    dispatch(reset());
+  //   dispatch(reset());
 
-  }, [dispatch])
+  // }, [dispatch])
 
   return (
     <Container>

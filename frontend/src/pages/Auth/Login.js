@@ -9,11 +9,12 @@ import { Link } from 'react-router-dom';
 import Message from '../../components/Message';
 
 // Hooks
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useResetAuthMessage } from '../../hooks/useResetAuthMessage';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import { login, reset } from '../../slices/authSlice';
+import { login } from '../../slices/authSlice';
 
 
 
@@ -23,6 +24,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
 
   const dispatch = useDispatch();
+  const resetMessage = useResetAuthMessage(dispatch);
   const { loading, error } = useSelector((state) => state.auth);
 
   const handleSubmit = (e) => {
@@ -34,14 +36,10 @@ const Login = () => {
     }
 
     dispatch(login(user));
+    
+    // clean all states
+    resetMessage();
   }
-
-  // clean all states
-  useEffect(() => {
-
-    dispatch(reset());
-
-  }, [dispatch])
 
   return (
     <Container>
