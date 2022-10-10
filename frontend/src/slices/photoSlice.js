@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import photoService from "../services/photoService";
+import authService from "../services/authServices";
 
 const initialState = {
     photos: [],
@@ -95,7 +96,17 @@ export const comment = createAsyncThunk("photo/comment", async (commentData, thu
 export const getPhotos = createAsyncThunk("photos/getall", async(_,thunkAPI) => {
 
     const token = thunkAPI.getState().auth.user.token;
-    const data = await photoService.getPhotos(token);
+    const data = await photoService.getPhotos(token);    
+
+    if (data.errors) {
+        if (data.errors[0] === 'Token inválido.') {
+            authService.logout();
+            return;
+        }        
+        return thunkAPI.rejectWithValue(data.errors[0]);
+
+    }
+
     return data;
 })
 
